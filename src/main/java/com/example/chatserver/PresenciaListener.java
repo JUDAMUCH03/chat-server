@@ -15,10 +15,12 @@ public class PresenciaListener {
     private static final Logger log = LoggerFactory.getLogger(PresenciaListener.class);
     private final SimpMessagingTemplate broker;
     private final UsuariosConectados usuarios;
+    private final ChatMetrics metrics;
 
-    public PresenciaListener(SimpMessagingTemplate broker, UsuariosConectados usuarios) {
+    public PresenciaListener(SimpMessagingTemplate broker, UsuariosConectados usuarios, ChatMetrics metrics) {
         this.broker = broker;
         this.usuarios = usuarios;
+        this.metrics = metrics;
     }
 
     @EventListener
@@ -29,6 +31,7 @@ public class PresenciaListener {
         if (usuario == null) return;
         usuarios.quitar(accessor.getSessionId());
         broker.convertAndSend("/topic/usuarios", usuarios.listar());
+        metrics.sale();
         log.info("Salió {}", usuario);
         broker.convertAndSend("/topic/sala",
                 new ChatMessage("SALIDA", usuario, usuario + " salió del chat", null).conFecha());

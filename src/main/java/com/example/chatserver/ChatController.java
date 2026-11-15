@@ -18,10 +18,12 @@ public class ChatController {
     private static final Logger log = LoggerFactory.getLogger(ChatController.class);
     private final SimpMessagingTemplate broker;
     private final UsuariosConectados usuarios;
+    private final ChatMetrics metrics;
 
-    public ChatController(SimpMessagingTemplate broker, UsuariosConectados usuarios) {
+    public ChatController(SimpMessagingTemplate broker, UsuariosConectados usuarios, ChatMetrics metrics) {
         this.broker = broker;
         this.usuarios = usuarios;
+        this.metrics = metrics;
     }
 
     @MessageMapping("/chat.unirse")
@@ -30,6 +32,7 @@ public class ChatController {
         headers.getSessionAttributes().put("usuario", mensaje.autor());
         usuarios.agregar(headers.getSessionId(), mensaje.autor(), mensaje.contenido());
         broker.convertAndSend("/topic/usuarios", usuarios.listar());
+        metrics.entra();
         log.info("Se unió {}", mensaje.autor());
         return new ChatMessage("UNION", mensaje.autor(), mensaje.autor() + " entró al chat", null).conFecha();
     }
@@ -37,6 +40,7 @@ public class ChatController {
     @MessageMapping("/chat.enviar")
     @SendTo("/topic/sala")
     public ChatMessage enviar(ChatMessage mensaje) {
+        metrics.mensaje(mensaje.tipo());
         log.info("Mensaje {} de {}", mensaje.tipo(), mensaje.autor());
         return mensaje.conFecha();
     }
