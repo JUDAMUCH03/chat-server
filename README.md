@@ -37,10 +37,13 @@ El sistema completo está tematizado como **Lobby Gamer de Valorant** e incluye:
 - **Quién está conectado:** seguimiento de sesiones activas y publicación en `/topic/usuarios`.
 - **Emojis:** selector integrado en el cliente React.
 
+**Tres usuarios conectados chateando en tiempo real:**  
 ![Chat con 3 usuarios conectados](docs/capturas/chat-mensajes-3users-.png)
 
+**Envío y visualización de imágenes vía `/api/archivos`:**  
 ![Envío de imágenes en el chat](docs/capturas/chat-mensaje-imagen.png)
 
+**Aviso de salida de usuario y mensajes con emojis:**  
 ![Desconexión de usuario y envío de emojis](docs/capturas/chat-salirChat-emoji.png)
 
 ## Cómo levantar la observabilidad
@@ -62,4 +65,11 @@ El sistema completo está tematizado como **Lobby Gamer de Valorant** e incluye:
    docker compose down
    ```
 
+**Métricas propias del chat en `/actuator/prometheus`:**  
+![Métricas expuestas en Actuator / Prometheus](docs/capturas/prometeus.png)
+
+**Traza distribuida HTTP de `/api/archivos` en Zipkin:**  
+![Traza distribuida en Zipkin](docs/capturas/zipkin.png)
+
+**Tablero `Chat en vivo` en Grafana (métricas y logs en Loki):**  
 ![Tablero de observabilidad Chat en vivo en Grafana](docs/capturas/grafana-dashboard.png)
