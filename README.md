@@ -65,6 +65,9 @@ El sistema completo está tematizado como **Lobby Gamer de Valorant** e incluye:
    docker compose down
    ```
 
+**Contenedores del stack de observabilidad corriendo en Docker Desktop:**  
+![Contenedores Prometheus, Loki, Zipkin y Grafana en Docker](docs/capturas/docker-observabilidad.png)
+
 **Métricas propias del chat en `/actuator/prometheus`:**  
 ![Métricas expuestas en Actuator / Prometheus](docs/capturas/prometeus.png)
 
